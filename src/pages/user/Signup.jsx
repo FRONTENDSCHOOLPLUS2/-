@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import Button from '@components/Button';
 import Submit from '@components/Submit';
@@ -13,6 +14,52 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [profileImage, setProfileImage] = useState(null); // 프로필 이미지 상태
+  const navigate = useNavigate();
+
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('password', password);
+  formData.append('name', name);
+  formData.append('type', 'user');
+  if (profileImage) {
+    formData.append('profileImage', profileImage, profileImage.name);
+  }
+
+  try {
+    const response = await fetch('https://api.fesp.shop/users', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const loginResponse = await fetch('https://api.fesp.shop/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json();
+        localStorage.setItem('user', JSON.stringify(loginData));
+        alert('회원가입이 완료되었습니다!');
+        navigate('/'); // 홈 화면으로 리디렉션
+      } else {
+        throw new Error('로그인에 실패했습니다.');
+      }
+    } else {
+      throw new Error('회원가입에 실패했습니다.');
+    }
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+};
+
 
   // 이름 조건
   const handleNameChange = (event) => {
@@ -95,7 +142,7 @@ function Signup() {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-  
+  a
 
   // 회원 정보 저장
   const profileImageToSave = profileImage || defaultProfileImage; // 기본 이미지 사용
@@ -108,9 +155,14 @@ function Signup() {
 
   let users = JSON.parse(localStorage.getItem('users')) || [];
   users.push(userInfo);
-  localStorage.setItem('user', JSON.stringify(userInfo)); // 로컬 스토리지에 저장
+  localStorage.setItem('user', JSON.stringify(users)); // 로컬 스토리지에 저장
   
   alert('회원가입이 완료되었습니다^^.')
+  // 콘솔에 저장된 정보 출력
+  console.log('Saved user:', JSON.parse(localStorage.getItem('user')));
+  console.log('All users:', JSON.parse(localStorage.getItem('users')));
+  navigate(`/`);
+  
 };
 
 

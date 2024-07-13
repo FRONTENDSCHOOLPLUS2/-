@@ -19,6 +19,15 @@ function Login() {
     setEmailError(""); // *추가: 오류 메시지 초기화
     setPasswordError(""); // *추가: 오류 메시지 초기화
 
+    // localStorage에서 userInfo 가져오기
+    const storedUserInfo = JSON.parse(localStorage.getItem('user')); 
+    if (storedUserInfo && storedUserInfo.email === email && storedUserInfo.password === password) { 
+      // 로그인 성공 
+      setAuthState({ isAuthenticated: true, username: storedUserInfo.name }); 
+      navigate('/'); 
+      return; 
+    } 
+
     try {
       const response = await postUserLogin(email, password);
       console.log(response); // 서버 응답 확인
