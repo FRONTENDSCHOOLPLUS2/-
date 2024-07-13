@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+>>>>>>> c9c8d58 (component>layout TS로 변경)
 import React, { useState } from 'react';
 import Button from '@components/Button';
 import Submit from '@components/Submit';
@@ -14,6 +17,7 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [profileImage, setProfileImage] = useState(null); // 프로필 이미지 상태
+<<<<<<< HEAD
   const navigate = useNavigate();
 
   const formData = new FormData();
@@ -60,6 +64,8 @@ function Signup() {
   }
 };
 
+=======
+>>>>>>> c9c8d58 (component>layout TS로 변경)
 
   // 이름 조건
   const handleNameChange = (event) => {
@@ -142,7 +148,11 @@ function Signup() {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
+<<<<<<< HEAD
   a
+=======
+  
+>>>>>>> c9c8d58 (component>layout TS로 변경)
 
   // 회원 정보 저장
   const profileImageToSave = profileImage || defaultProfileImage; // 기본 이미지 사용
@@ -155,6 +165,7 @@ function Signup() {
 
   let users = JSON.parse(localStorage.getItem('users')) || [];
   users.push(userInfo);
+<<<<<<< HEAD
   localStorage.setItem('user', JSON.stringify(users)); // 로컬 스토리지에 저장
   
   alert('회원가입이 완료되었습니다^^.')
@@ -163,6 +174,11 @@ function Signup() {
   console.log('All users:', JSON.parse(localStorage.getItem('users')));
   navigate(`/`);
   
+=======
+  localStorage.setItem('user', JSON.stringify(userInfo)); // 로컬 스토리지에 저장
+  
+  alert('회원가입이 완료되었습니다^^.')
+>>>>>>> c9c8d58 (component>layout TS로 변경)
 };
 
 
